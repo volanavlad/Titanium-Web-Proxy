@@ -12,9 +12,7 @@ namespace Titanium.Web.Proxy.EventArguments
     {
         public CertificateValidationEventArgs(RequestStateBase state, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         :base(state)
-        public CertificateValidationEventArgs(SessionEventArgsBase session, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) : base(session.ClientConnection)
         {
-            Session = session;
             Certificate = certificate;
             Chain = chain;
             SslPolicyErrors = sslPolicyErrors;
@@ -23,7 +21,7 @@ namespace Titanium.Web.Proxy.EventArguments
         /// <value>
         ///     The session.
         /// </value>
-        public SessionEventArgsBase Session { get; }
+        public SessionEventArgsBase Session => State.session;
 
         /// <summary>
         ///     Server certificate.

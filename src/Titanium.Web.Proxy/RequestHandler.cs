@@ -63,7 +63,7 @@ namespace Titanium.Web.Proxy
                         return;
                     }
 
-                    var args = new SessionEventArgs(state, endPoint, clientConnection, clientStream, connectRequest, cancellationTokenSource)
+                    var args = new SessionEventArgs(state, endPoint, clientStream, connectRequest, cancellationTokenSource)
                     {
                         UserData = connectArgs?.UserData
                     };
@@ -266,7 +266,6 @@ namespace Titanium.Web.Proxy
             // a connection generator task with captured parameters via closure.
             Func<Task<TcpServerConnection>> generator = () =>
                 tcpConnectionFactory.GetServerConnection(args.State,
-                    args,
                     false,
                     sslApplicationProtocol,
                     noCache,

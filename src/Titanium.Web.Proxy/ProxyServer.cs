@@ -28,6 +28,7 @@ namespace Titanium.Web.Proxy
     }
     public abstract partial class RequestStateBase
     {
+        public SessionEventArgsBase? session;
         public abstract ProxyServerBase Server { get; }
         internal abstract TcpClientConnection ClientConnection { get; }
 
@@ -94,9 +95,10 @@ namespace Titanium.Web.Proxy
 
                 tcpClient.LingerState = new LingerOption(true, TcpTimeWaitSeconds);
 
-                await InvokeConnectionCreateEvent(tcpClient, true);
+                
                 using (var requestState = new TRequestState())
                 {
+                    await InvokeClientConnectionCreateEvent(tcpClient);
                     var clientConnection = new TcpClientConnection(this, tcpClient);
                     requestState.server = this;
                     requestState.clientConnection = clientConnection;

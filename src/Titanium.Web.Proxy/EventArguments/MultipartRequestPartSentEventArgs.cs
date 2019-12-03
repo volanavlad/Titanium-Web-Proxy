@@ -7,9 +7,8 @@ namespace Titanium.Web.Proxy.EventArguments
     /// </summary>
     public class MultipartRequestPartSentEventArgs : ProxyEventArgsBase
     {
-        internal MultipartRequestPartSentEventArgs(SessionEventArgs session, string boundary, HeaderCollection headers) : base(session.ClientConnection)
-        internal MultipartRequestPartSentEventArgs(RequestStateBase state, string boundary, HeaderCollection headers)
-            :base(state)
+        internal MultipartRequestPartSentEventArgs(SessionEventArgs session, string boundary, HeaderCollection headers)
+          :base(session.State)
         {
             Session = session;
             Boundary = boundary;

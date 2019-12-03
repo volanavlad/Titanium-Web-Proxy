@@ -11,7 +11,7 @@ using Titanium.Web.Proxy.StreamExtended.Network;
 
 namespace Titanium.Web.Proxy.EventArguments
 {
-    public abstract class ProxyEventArgsBase : EventArgs
+    public abstract partial class ProxyEventArgsBase : EventArgs
     {
         public readonly RequestStateBase State;
         public ProxyEventArgsBase(RequestStateBase state)
@@ -58,10 +58,8 @@ namespace Titanium.Web.Proxy.EventArguments
         ///     Initializes a new instance of the <see cref="SessionEventArgsBase" /> class.
         /// </summary>
         private protected SessionEventArgsBase(RequestStateBase state, ProxyEndPoint endPoint,
-            TcpClientConnection clientConnection, HttpClientStream clientStream, ConnectRequest? connectRequest, Request request, CancellationTokenSource cancellationTokenSource)
-        :base(state)
-        private protected SessionEventArgsBase(ProxyServer server, ProxyEndPoint endPoint,
-            HttpClientStream clientStream, ConnectRequest? connectRequest, Request request, CancellationTokenSource cancellationTokenSource) : base(clientStream.Connection)
+          HttpClientStream clientStream, ConnectRequest? connectRequest, Request request, CancellationTokenSource cancellationTokenSource)
+            : base(state)
         {
             var server = state.Server;
             BufferPool = server.BufferPool;

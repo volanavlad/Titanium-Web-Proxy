@@ -76,7 +76,7 @@ namespace Titanium.Web.Proxy
                         catch (Exception e)
                         {
                             var certName = certificate?.GetNameInfo(X509NameType.SimpleName, false);
-                            var session = new SessionEventArgs(this, endPoint, clientConnection, clientStream, null,
+                            var session = new SessionEventArgs(state, endPoint, clientStream, null,
                                 cancellationTokenSource);
                             throw new ProxyConnectException(
                                 $"Couldn't authenticate host '{httpsHostName}' with certificate '{certName}'.", e, session);
@@ -85,10 +85,10 @@ namespace Titanium.Web.Proxy
                     }
                     else
                     {
-                        var sessionArgs = new SessionEventArgs(this, endPoint, clientStream, null, cancellationTokenSource); 
-                        var connection = await tcpConnectionFactory.GetServerConnection(this, httpsHostName, endPoint.Port,
+                        var sessionArgs = new SessionEventArgs(state, endPoint, clientStream, null, cancellationTokenSource); 
+                        var connection = await tcpConnectionFactory.GetServerConnection(state, httpsHostName, endPoint.Port,
                                     HttpHeader.VersionUnknown, false, null,
-                                    true, this, null, UpStreamEndPoint,
+                                    true, UpStreamEndPoint,
                                     UpStreamHttpsProxy, true, cancellationToken);
 
                         try
@@ -128,7 +128,7 @@ namespace Titanium.Web.Proxy
 
                 // HTTPS server created - we can now decrypt the client's traffic
                 // Now create the request
-                await handleHttpSessionRequest(endPoint, clientConnection, clientStream, cancellationTokenSource);
+                await handleHttpSessionRequest(endPoint, state, clientStream, cancellationTokenSource);
             }
             catch (ProxyException e)
             {

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.Security;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Titanium.Web.Proxy.EventArguments;

@@ -7,9 +7,9 @@ namespace Titanium.Web.Proxy.EventArguments
     ///     The base event arguments
     /// </summary>
     /// <seealso cref="System.EventArgs" />
-    public abstract class ProxyEventArgsBase : EventArgs
+    public abstract partial class ProxyEventArgsBase : EventArgs
     {
-        private readonly TcpClientConnection clientConnection;
+        private TcpClientConnection clientConnection =>State.ClientConnection;
 
         public object ClientUserData
         {
@@ -17,9 +17,5 @@ namespace Titanium.Web.Proxy.EventArguments
             set => clientConnection.ClientUserData = value;
         }
 
-        internal ProxyEventArgsBase(TcpClientConnection clientConnection)
-        {
-            this.clientConnection = clientConnection;
-        }
     }
 }

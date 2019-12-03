@@ -15,10 +15,9 @@ namespace Titanium.Web.Proxy.EventArguments
         ///     The proxy server instance.
         /// </summary>
         public object? Sender { get; internal set; }
-        public CertificateSelectionEventArgs(SessionEventArgsBase session, string targetHost,
-            X509CertificateCollection localCertificates, X509Certificate remoteCertificate, string[] acceptableIssuers) : base(session.ClientConnection)
+        public CertificateSelectionEventArgs(RequestStateBase state, string targetHost,
+            X509CertificateCollection localCertificates, X509Certificate remoteCertificate, string[] acceptableIssuers) : base(state)
         {
-            Session = session;
             TargetHost = targetHost;
             LocalCertificates = localCertificates;
             RemoteCertificate = remoteCertificate;
@@ -28,7 +27,7 @@ namespace Titanium.Web.Proxy.EventArguments
         /// <value>
         ///     The session.
         /// </value>
-        public SessionEventArgsBase Session { get; }
+        public SessionEventArgsBase Session => State.session!;
 
         /// <summary>
         ///     The remote hostname to which we are authenticating against.
