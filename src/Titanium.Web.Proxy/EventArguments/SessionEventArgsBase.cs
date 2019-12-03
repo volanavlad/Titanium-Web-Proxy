@@ -5,7 +5,6 @@ using System.Threading;
 using Titanium.Web.Proxy.Helpers;
 using Titanium.Web.Proxy.Http;
 using Titanium.Web.Proxy.Models;
-using Titanium.Web.Proxy.Network;
 using Titanium.Web.Proxy.Network.Tcp;
 using Titanium.Web.Proxy.StreamExtended.BufferPool;
 using Titanium.Web.Proxy.StreamExtended.Network;
@@ -38,7 +37,7 @@ namespace Titanium.Web.Proxy.EventArguments
         /// <summary>
         ///     Holds a reference to client
         /// </summary>
-        internal TcpClientConnection ClientConnection { get; }
+        internal TcpClientConnection ClientConnection => ClientStream.Connection;
 
         internal HttpClientStream ClientStream { get; }
 
@@ -61,6 +60,8 @@ namespace Titanium.Web.Proxy.EventArguments
         private protected SessionEventArgsBase(RequestStateBase state, ProxyEndPoint endPoint,
             TcpClientConnection clientConnection, HttpClientStream clientStream, ConnectRequest? connectRequest, Request request, CancellationTokenSource cancellationTokenSource)
         :base(state)
+        private protected SessionEventArgsBase(ProxyServer server, ProxyEndPoint endPoint,
+            HttpClientStream clientStream, ConnectRequest? connectRequest, Request request, CancellationTokenSource cancellationTokenSource) : base(clientStream.Connection)
         {
             var server = state.Server;
             BufferPool = server.BufferPool;
@@ -69,9 +70,8 @@ namespace Titanium.Web.Proxy.EventArguments
 
             CancellationTokenSource = cancellationTokenSource;
 
-            ClientConnection = clientConnection;
             ClientStream = clientStream;
-            HttpClient = new HttpWebClient(connectRequest, request, new Lazy<int>(() => clientConnection.GetProcessId(endPoint)));
+            HttpClient = new HttpWebClient(connectRequest, request, new Lazy<int>(() => clientStream.Connection.GetProcessId(endPoint)));
             LocalEndPoint = endPoint;
             EnableWinAuth = server.EnableWinAuth && isWindowsAuthenticationSupported;
         }

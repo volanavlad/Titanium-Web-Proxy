@@ -27,6 +27,7 @@ namespace Titanium.Web.Proxy
         ///     Call back to override server certificate validation
         /// </summary>
         /// <param name="sender">The sender object.</param>
+        /// <param name="sessionArgs">The http session.</param>
         /// <param name="certificate">The remote certificate.</param>
         /// <param name="chain">The certificate chain.</param>
         /// <param name="sslPolicyErrors">Ssl policy errors</param>
@@ -58,6 +59,7 @@ namespace Titanium.Web.Proxy
         ///     Call back to select client certificate used for mutual authentication
         /// </summary>
         /// <param name="sender">The sender.</param>
+        /// <param name="sessionArgs">The http session.</param>
         /// <param name="targetHost">The remote hostname.</param>
         /// <param name="localCertificates">Selected local certificates by SslStream.</param>
         /// <param name="remoteCertificate">The remote certificate of server.</param>
@@ -92,10 +94,6 @@ namespace Titanium.Web.Proxy
             {
                 var args = new CertificateSelectionEventArgs(state)
                 {
-                    TargetHost = targetHost,
-                    LocalCertificates = localCertificates,
-                    RemoteCertificate = remoteCertificate,
-                    AcceptableIssuers = acceptableIssuers,
                     ClientCertificate = clientCertificate
                 };
 

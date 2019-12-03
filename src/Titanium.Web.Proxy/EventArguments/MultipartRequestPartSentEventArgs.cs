@@ -1,5 +1,4 @@
-﻿using System;
-using Titanium.Web.Proxy.Http;
+﻿using Titanium.Web.Proxy.Http;
 
 namespace Titanium.Web.Proxy.EventArguments
 {
@@ -8,12 +7,19 @@ namespace Titanium.Web.Proxy.EventArguments
     /// </summary>
     public class MultipartRequestPartSentEventArgs : ProxyEventArgsBase
     {
+        internal MultipartRequestPartSentEventArgs(SessionEventArgs session, string boundary, HeaderCollection headers) : base(session.ClientConnection)
         internal MultipartRequestPartSentEventArgs(RequestStateBase state, string boundary, HeaderCollection headers)
             :base(state)
         {
+            Session = session;
             Boundary = boundary;
             Headers = headers;
         }
+
+        /// <value>
+        ///     The session arguments.
+        /// </value>
+        public SessionEventArgs Session { get; }
 
         /// <summary>
         ///     Boundary.

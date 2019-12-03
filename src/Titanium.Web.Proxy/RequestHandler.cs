@@ -14,7 +14,6 @@ using Titanium.Web.Proxy.Models;
 using Titanium.Web.Proxy.Network;
 using Titanium.Web.Proxy.Network.Tcp;
 using Titanium.Web.Proxy.Shared;
-using Titanium.Web.Proxy.StreamExtended.Network;
 
 namespace Titanium.Web.Proxy
 {
@@ -29,7 +28,6 @@ namespace Titanium.Web.Proxy
         ///     client/server abruptly terminates connection or by normal HTTP termination.
         /// </summary>
         /// <param name="endPoint">The proxy endpoint.</param>
-        /// <param name="clientConnection">The client connection.</param>
         /// <param name="clientStream">The client stream.</param>
         /// <param name="cancellationTokenSource">The cancellation token source for this async task.</param>
         /// <param name="connectArgs">The Connect request if this is a HTTPS request from explicit endpoint.</param>
@@ -164,7 +162,7 @@ namespace Titanium.Web.Proxy
                             // or when prefetch task has a unexpectedly different connection.
                             if (connection != null
                                 && (await tcpConnectionFactory.GetConnectionCacheKey(this, args,
-                                    clientConnection.NegotiatedApplicationProtocol)
+                                    clientStream.Connection.NegotiatedApplicationProtocol)
                                                 != connection.CacheKey))
                             {
                                 await tcpConnectionFactory.Release(connection);
@@ -172,7 +170,7 @@ namespace Titanium.Web.Proxy
                             }
 
                             var result = await handleHttpSessionRequest(args, connection,
-                                  clientConnection.NegotiatedApplicationProtocol,
+                                clientStream.Connection.NegotiatedApplicationProtocol,
                                   cancellationToken, cancellationTokenSource);
 
                             // update connection to latest used
